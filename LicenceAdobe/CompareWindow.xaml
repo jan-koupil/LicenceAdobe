@@ -6,13 +6,14 @@
         xmlns:local="clr-namespace:LicenceAdobe"
         mc:Ignorable="d"
         Title="Rozdíly" Height="480" Width="640" MinWidth="320" MinHeight="240">
-    <Grid>
+    <Grid Margin="10,0,-0.4,0.4">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="327*"/>
-            <ColumnDefinition Width="328*"/>
+            <ColumnDefinition Width="313*"/>
+            <ColumnDefinition Width="40.8"/>
+            <ColumnDefinition Width="270*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Margin="10,4,10.2,0" TextWrapping="Wrap" Text="Registrované" FontSize="20" Height="27" VerticalAlignment="Top"/>
-        <DataGrid x:Name="localRecordDataGrid" AutoGenerateColumns="False" Margin="10,36,0.2,10" IsReadOnly="True">
+        <TextBlock Margin="10,4,6.6,0" TextWrapping="Wrap" Text="Jen místní" FontSize="20" Height="27" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <DataGrid x:Name="localRecordDataGrid" AutoGenerateColumns="False" Margin="10,36,40.6,11" IsReadOnly="True" SelectionChanged="compareDataGrid_SelectionChanged" Grid.ColumnSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding SchoolClass}" ClipboardContentBinding="{x:Null}" Header="Třída"/>
                 <DataGridTextColumn Binding="{Binding Surname}" ClipboardContentBinding="{x:Null}" Header="Příjmení"/>
@@ -21,7 +22,7 @@
                 <DataGridTextColumn Binding="{Binding Remarks}" ClipboardContentBinding="{x:Null}" Header="Poznámky"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="webOnlyDataGrid" Margin="9.8,36,10.2,10" AutoGenerateColumns="False" Grid.Column="1" SelectionChanged="compareDataGrid_SelectionChanged" IsReadOnly="True">
+        <DataGrid x:Name="webOnlyDataGrid" Margin="0.4,36,11,11" AutoGenerateColumns="False" Grid.Column="2" SelectionChanged="compareDataGrid_SelectionChanged" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Název"/>
                 <DataGridTextColumn Binding="{Binding Product}" ClipboardContentBinding="{x:Null}" Header="Produkt"/>
@@ -30,9 +31,9 @@
                 <!--<DataGridCheckBoxColumn Header="Přesun"/>-->
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Margin="9.8,4,10.2,0" TextWrapping="Wrap" Text="Jen na webu" FontSize="20" Height="27" VerticalAlignment="Top" Grid.Column="1"/>
-        <Button x:Name="moveAndCloseBtn" Content="Přidat" HorizontalAlignment="Right" Margin="0,7,10.2,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Height="26" FontSize="16" IsEnabled="False" Click="moveAndCloseBtn_Click"/>
-        <Button x:Name="updateBtn" Content="Přidat" HorizontalAlignment="Right" Margin="0,7,0,0" VerticalAlignment="Top" Width="75" Height="26" FontSize="16" IsEnabled="False" Click="updateBtn_Click"/>
+        <TextBlock Margin="13.4,4,10,0" TextWrapping="Wrap" Text="Jen na webu" FontSize="20" Height="27" VerticalAlignment="Top" Grid.Column="2"/>
+        <Button x:Name="moveAndCloseBtn" Content="+" HorizontalAlignment="Right" Margin="0,181,6.6,0" VerticalAlignment="Top" Width="27" Grid.Column="1" Height="26" FontSize="16" IsEnabled="False" Click="moveAndCloseBtn_Click" ToolTip="Přidat vybrané názvy do seznamu vlevo"/>
+        <Button x:Name="updateBtn" Content="⇦" HorizontalAlignment="Right" Margin="0,141,6.6,0" VerticalAlignment="Top" Width="27" Height="26" FontSize="16" IsEnabled="False" Click="updateBtn_Click" Grid.Column="1" ToolTip="Upravit název vlevo vybraného záznamu hodnotou vpravo"/>
 
     </Grid>
 </Window>

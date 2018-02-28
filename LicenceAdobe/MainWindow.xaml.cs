@@ -169,7 +169,11 @@ namespace LicenceAdobe
             compWin.ShowDialog();
             List<WebRecord> recordsToAdd = compWin.recordsToAdd;
             compWin.Close();
-            if (recordsToAdd == null) return;
+            if (recordsToAdd == null)
+            {
+                showData();
+                return;
+            }
 
             foreach (WebRecord webRecord in recordsToAdd)
             {

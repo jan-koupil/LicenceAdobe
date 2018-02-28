@@ -47,14 +47,28 @@ namespace LicenceAdobe
                 .Select(cell => (WebRecord)cell.Item)
                 .Distinct().Count();
 
-            int localSelected = localRecordDataGrid.SelectedCells
+            int localSelected = (localRecordDataGrid.ItemsSource == null) 
+                ? 0 
+                :localRecordDataGrid.SelectedCells
                 .Select(cell => (ComputerRecord)cell.Item)
                 .Distinct().Count();
-            moveAndCloseBtn.IsEnabled = (localSelected == 1 && webSelected == 1);
+
+            updateBtn.IsEnabled = (localSelected == 1 && webSelected == 1);
         }
 
         private void updateBtn_Click(object sender, RoutedEventArgs e)
         {
+            WebRecord webSelectedItem = webOnlyDataGrid.SelectedCells
+                .Select(cell => (WebRecord)cell.Item).First();
+
+            ComputerRecord localSelected = localRecordDataGrid.SelectedCells
+                .Select(cell => (ComputerRecord)cell.Item).First();
+
+            localSelected.CName = webSelectedItem.Name;
+
+            List<ComputerRecord> sourceTmp = (List<ComputerRecord>) localRecordDataGrid.ItemsSource;
+            localRecordDataGrid.ItemsSource = null;
+            localRecordDataGrid.ItemsSource = sourceTmp;
 
         }
     }

@@ -68,8 +68,32 @@ namespace LicenceAdobe
 
         private void saveBtn_Click(object sender, RoutedEventArgs e)
         {
+            List<ComputerRecord> toSave = records
+                .OrderBy(x => x.SchoolClass)
+                .ThenBy(x => x.Surname)
+                .ThenBy(x => x.Name).ToList();
+
+            string[] duplicates = toSave.Select(i => i.CName)
+                .GroupBy(x => x)
+                .Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToArray();
+
+            if (duplicates.Length > 0)
+            {
+                MessageBox.Show(
+                    "Seznam nelze uložit protože obsahuje duplicitní záznamy:"
+                    + Environment.NewLine
+                    + Environment.NewLine
+                    + String.Join(Environment.NewLine, duplicates),
+                    "Chyba: duplicitní záznamy"
+                );
+                return;
+            }
+
             DateTime thisDay = DateTime.Today;
             string defaultFilename = String.Format("Licence_{0}_{1:00}_{2:00}", thisDay.Year, thisDay.Month, thisDay.Day);
+
             try
             {                
                 SaveFileDialog dlg = new SaveFileDialog();
@@ -85,7 +109,7 @@ namespace LicenceAdobe
                 {
                     // Save document
                     string filename = dlg.FileName;
-                    XMLSerialization.WriteToXmlFile(dlg.FileName, records);
+                    XMLSerialization.WriteToXmlFile(dlg.FileName, toSave);
                 }
             }
             catch
@@ -164,24 +188,14 @@ namespace LicenceAdobe
 
         private void compareBtn_Click(object sender, RoutedEventArgs e)
         {
-            object[] differences = findDifference();
-            CompareWindow compWin = new CompareWindow((List<ComputerRecord>) differences[0], (List<WebRecord>)differences[1]);
+            // object[] differences = findDifference(records, webReportNames);
+            //CompareWindow compWin = new CompareWindow((List<ComputerRecord>) differences[0], (List<WebRecord>)differences[1]);
+            CompareWindow compWin = new CompareWindow(records, webReportNames);
             compWin.ShowDialog();
             List<WebRecord> recordsToAdd = compWin.recordsToAdd;
             compWin.Close();
-            if (recordsToAdd == null)
-            {
-                showData();
-                return;
-            }
-
-            foreach (WebRecord webRecord in recordsToAdd)
-            {
-                ComputerRecord record = new ComputerRecord();
-                record.CName = webRecord.Name;
-                records.Add(record);
-            }
             showData();
+
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -194,43 +208,10 @@ namespace LicenceAdobe
                 catch { };
         }
 
-        private object[] findDifference()
-        {
-            List<ComputerRecord> diffRecords = new List<ComputerRecord>();
-            List<WebRecord> diffWebReportNames = new List<WebRecord>();
-            foreach (ComputerRecord record in records)
-            {
-                bool found = false;
-                foreach (WebRecord webRecord in webReportNames)
-                {
-                    if (record.CName.ToUpper() == webRecord.Name.ToUpper())
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found)
-                    diffRecords.Add(record);
-            }
-            foreach (WebRecord webRecord in webReportNames)
-            {
-                bool found = false;
-                foreach (ComputerRecord record in records)
-                {
-                    if (record.CName.ToUpper() == webRecord.Name.ToUpper())
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found)
-                    diffWebReportNames.Add(webRecord);
-            }
-            return new Object[] { diffRecords, diffWebReportNames };
-        }
-
+ 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
         }
+
     }
 }

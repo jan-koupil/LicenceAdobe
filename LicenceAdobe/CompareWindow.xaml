@@ -32,7 +32,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Margin="13.4,4,10,0" TextWrapping="Wrap" Text="Jen na webu" FontSize="20" Height="27" VerticalAlignment="Top" Grid.Column="2"/>
-        <Button x:Name="moveAndCloseBtn" Content="+" HorizontalAlignment="Right" Margin="0,181,6.6,0" VerticalAlignment="Top" Width="27" Grid.Column="1" Height="26" FontSize="16" IsEnabled="False" Click="moveAndCloseBtn_Click" ToolTip="Přidat vybrané názvy do seznamu vlevo"/>
+        <Button x:Name="moveBtn" Content="+" HorizontalAlignment="Right" Margin="0,181,6.6,0" VerticalAlignment="Top" Width="27" Grid.Column="1" Height="26" FontSize="16" IsEnabled="False" Click="moveBtn_Click" ToolTip="Přidat vybrané názvy do seznamu vlevo"/>
         <Button x:Name="updateBtn" Content="⇦" HorizontalAlignment="Right" Margin="0,141,6.6,0" VerticalAlignment="Top" Width="27" Height="26" FontSize="16" IsEnabled="False" Click="updateBtn_Click" Grid.Column="1" ToolTip="Upravit název vlevo vybraného záznamu hodnotou vpravo"/>
 
     </Grid>
